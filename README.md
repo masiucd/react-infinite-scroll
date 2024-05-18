@@ -17,3 +17,4 @@ This project is a simple implementation of infinite scroll using react. It fetch
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Vite](https://vitejs.dev/)
+- [TanStack](https://tanstack.com/)
