@@ -51,7 +51,7 @@ function Main() {
         {data?.totalPosts && (
           <button
             onClick={() => {
-              setStart(start + 10);
+              // setStart(start + 10);
               setEnd(end + 10);
             }}
             className="rounded-md bg-blue-500 p-2 text-white"
