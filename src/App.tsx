@@ -3,7 +3,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {z} from "zod";
 
 let queryClient = new QueryClient();
@@ -21,18 +21,25 @@ let postSchema = z.object({
   body: z.string(),
 });
 
+const OFFSET = 4;
+
 function Main() {
-  let [start, setStart] = useState(0);
-  let [end, setEnd] = useState(10);
-  let [posts, setPosts] = useState<z.infer<typeof postSchema>[] | never[]>([]);
-  console.log({start, end});
-  let {data, isError, isPending} = useQuery({
+  let [end, setEnd] = useState(OFFSET);
+  // let [posts, setPosts] = useState<z.infer<typeof postSchema>[] | never[]>([]);
+  let {data, isError, isPending, refetch} = useQuery({
     queryKey: ["posts"],
+
     queryFn: async () => {
-      let {posts, totalPosts} = await fetchPosts(start, end);
+      let {posts, totalPosts} = await fetchPosts(0, end);
       return {posts, totalPosts};
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, end]);
+
+  console.log({end, data: data?.posts});
   if (isError) {
     return <p>Error fetching posts</p>;
   }
@@ -51,8 +58,7 @@ function Main() {
         {data?.totalPosts && (
           <button
             onClick={() => {
-              // setStart(start + 10);
-              setEnd(end + 10);
+              setEnd((prev) => prev + OFFSET);
             }}
             className="rounded-md bg-blue-500 p-2 text-white"
           >
