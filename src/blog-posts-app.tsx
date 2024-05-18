@@ -1,23 +1,16 @@
-import {useQuery} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
 import {useInView} from "react-intersection-observer";
 
-import {fetchPosts} from "./api";
 import {cn} from "./lib/cn";
 import {Posts} from "./posts";
+import {usePosts} from "./use-posts";
 
 export function BlogPostsApp() {
   let [end, setEnd] = useState(OFFSET);
   let {ref, inView} = useInView({
-    threshold: 1,
+    threshold: 0.5,
   });
-  let {data, isError, isPending, refetch, isRefetching} = useQuery({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      let {posts, totalPosts} = await fetchPosts(0, end);
-      return {posts, totalPosts};
-    },
-  });
+  let {data, isError, isPending, refetch, isRefetching} = usePosts(0, end);
 
   useEffect(() => {
     if (inView) {
