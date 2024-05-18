@@ -10,7 +10,7 @@ export function Posts({
 }) {
   return (
     <ul
-      className={cn("flex h-full flex-col gap-4", isRefetching && "opacity-75")}
+      className={cn("flex h-full flex-col gap-4", isRefetching && "opacity-50")}
     >
       {posts.map((post) => (
         <Post key={post.id} post={post} />
